@@ -1,0 +1,445 @@
+<div id="token_reducer_settings">
+    <div class="inline-drawer">
+        <div class="inline-drawer-toggle inline-drawer-header">
+            <b>Token Reducer</b>
+            <div class="inline-drawer-icon fa-solid fa-circle-chevron-down down"></div>
+        </div>
+        <div class="inline-drawer-content">
+            <!-- Token Savings Display -->
+            <div id="tr_savings_display" class="tr-savings-display">
+                <div class="tr-savings-row">
+                    <span class="tr-savings-label">📊 Token Savings:</span>
+                </div>
+                <div class="tr-savings-stats">
+                    <div class="tr-stat">
+                        <span class="tr-stat-label">Without Extension:</span>
+                        <span id="tr_original_tokens" class="tr-stat-value">0</span>
+                    </div>
+                    <div class="tr-stat">
+                        <span class="tr-stat-label">With Extension:</span>
+                        <span id="tr_reduced_tokens" class="tr-stat-value tr-highlight">0</span>
+                    </div>
+                    <div class="tr-stat tr-stat-savings">
+                        <span class="tr-stat-label">You Saved:</span>
+                        <span id="tr_saved_tokens" class="tr-stat-value tr-saved">0 tokens (0%)</span>
+                    </div>
+                </div>
+                <div class="tr-savings-detail">
+                    <small>Summarized: <span id="tr_summarized_count">0</span> messages</small>
+                </div>
+            </div>
+
+            <!-- Per-Message Summarization Section -->
+            <div class="tr-section">
+                <div class="tr-section-header">
+                    <span><i class="fa-solid fa-message"></i> Per-Message Summarization</span>
+                    <i class="fa-solid fa-chevron-down tr-collapse-icon"></i>
+                </div>
+                <div class="tr-section-content">
+                    <div class="tr-setting-row">
+                        <label for="tr_enable_message_summary">
+                            <input type="checkbox" id="tr_enable_message_summary">
+                            Enable Message Summarization
+                        </label>
+                        <small>Summarize individual messages to reduce tokens</small>
+                    </div>
+                    <div class="tr-setting-row">
+                        <label for="tr_auto_summarize">
+                            <input type="checkbox" id="tr_auto_summarize">
+                            Auto-Summarize
+                        </label>
+                        <small>Automatically summarize without manual action</small>
+                    </div>
+                    <div class="tr-setting-row">
+                        <label for="tr_auto_summarize_user">
+                            <input type="checkbox" id="tr_auto_summarize_user">
+                            Include User Messages
+                        </label>
+                        <small>Also auto-summarize messages sent by you</small>
+                    </div>
+                    <div class="tr-setting-row">
+                        <label for="tr_auto_summarize_on_edit">
+                            <input type="checkbox" id="tr_auto_summarize_on_edit">
+                            Re-summarize on Edit
+                        </label>
+                        <small>Update summary when message content is edited</small>
+                    </div>
+                    <div class="tr-setting-row">
+                        <label for="tr_auto_summarize_on_swipe">
+                            <input type="checkbox" id="tr_auto_summarize_on_swipe">
+                            Re-summarize on Swipe
+                        </label>
+                        <small>Summarize new swipes (alternates)</small>
+                    </div>
+                    <div class="tr-setting-row">
+                        <label for="tr_auto_summarize_on_continue">
+                            <input type="checkbox" id="tr_auto_summarize_on_continue">
+                            Re-summarize on Continue
+                        </label>
+                        <small>Update summary when message is extended</small>
+                    </div>
+                    <div class="tr-setting-row">
+                        <label for="tr_summary_delay_messages">Messages before auto-summary:</label>
+                        <input type="number" id="tr_summary_delay_messages" min="1" max="50" value="5">
+                        <small>How many messages before auto-summarization starts</small>
+                    </div>
+                    <div class="tr-setting-row">
+                        <label for="tr_replace_with_summary">
+                            <input type="checkbox" id="tr_replace_with_summary">
+                            Replace with Summary
+                        </label>
+                        <small>Replace full message content with summary in context</small>
+                    </div>
+
+                    <!-- Auto-Hide Settings -->
+                    <div class="tr-setting-row">
+                        <label for="tr_collapse_summarized">
+                            <input type="checkbox" id="tr_collapse_summarized">
+                            Collapse Summarized Messages (Visual)
+                        </label>
+                        <small>Visually collapse messages after they are summarized</small>
+                    </div>
+                    <div class="tr-setting-row">
+                        <label for="tr_auto_hide_summarized">
+                            <input type="checkbox" id="tr_auto_hide_summarized">
+                            Auto-Hide Messages After Summarizing
+                        </label>
+                        <small>Hide summarized messages from AI context (like /hide command). Summaries are still
+                            available via lorebook.</small>
+                    </div>
+                    <div class="tr-setting-row">
+                        <label for="tr_keep_recent_count">Messages to leave unhidden:</label>
+                        <input type="number" id="tr_keep_recent_count" min="0" max="100" value="5">
+                        <small>Keep this many most-recent summarized messages visible to AI. Older summarized messages
+                            will be hidden.</small>
+                    </div>
+                    <div class="tr-setting-row">
+                        <label for="tr_collapse_style">Collapse Style:</label>
+                        <select id="tr_collapse_style">
+                            <option value="minimal">Minimal (icon only)</option>
+                            <option value="compact">Compact (one-line summary)</option>
+                            <option value="hidden">Fully Hidden</option>
+                        </select>
+                        <small>How collapsed messages appear in the chat</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scene/Chapter Summarization Section -->
+            <div class="tr-section">
+                <div class="tr-section-header">
+                    <span><i class="fa-solid fa-book"></i> Scene/Chapter Summarization</span>
+                    <i class="fa-solid fa-chevron-down tr-collapse-icon"></i>
+                </div>
+                <div class="tr-section-content">
+                    <div class="tr-setting-row">
+                        <label for="tr_enable_scene_mode">
+                            <input type="checkbox" id="tr_enable_scene_mode">
+                            Enable Scene Mode
+                        </label>
+                        <small>Mark and summarize scenes/chapters</small>
+                    </div>
+                    <div class="tr-setting-row">
+                        <label for="tr_auto_detect_scenes">
+                            <input type="checkbox" id="tr_auto_detect_scenes">
+                            Auto-Detect Scenes
+                        </label>
+                        <small>AI automatically detects natural scene breaks</small>
+                    </div>
+                    <div class="tr-setting-row">
+                        <label for="tr_scene_button">
+                            <input type="checkbox" id="tr_scene_button">
+                            Show Scene Button
+                        </label>
+                        <small>Add "End Scene" button to messages</small>
+                    </div>
+                    <div class="tr-setting-row">
+                        <label for="tr_hide_summarized_scenes">
+                            <input type="checkbox" id="tr_hide_summarized_scenes">
+                            Hide Summarized Scenes
+                        </label>
+                        <small>Hide messages after scene is summarized</small>
+                    </div>
+
+                    <!-- Chapter Timeline Display -->
+                    <div class="tr-subsection">
+                        <div class="tr-subsection-header">
+                            <span>📚 Chapter Timeline</span>
+                            <button id="tr_refresh_timeline" class="menu_button" title="Refresh Timeline">
+                                <i class="fa-solid fa-refresh"></i>
+                            </button>
+                        </div>
+                        <div id="tr_timeline_list" class="tr-timeline-list">
+                            <div class="tr-timeline-empty">No chapters yet. End a scene to create a chapter.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Memory Storage Section -->
+            <div class="tr-section">
+                <div class="tr-section-header">
+                    <span><i class="fa-solid fa-database"></i> Memory Storage</span>
+                    <i class="fa-solid fa-chevron-down tr-collapse-icon"></i>
+                </div>
+                <div class="tr-section-content">
+                    <div class="tr-setting-row">
+                        <label for="tr_storage_mode">Storage Mode:</label>
+                        <select id="tr_storage_mode">
+                            <option value="metadata">Chat Metadata Only</option>
+                            <option value="lorebook">Lorebook Only</option>
+                            <option value="both">Both Metadata & Lorebook</option>
+                        </select>
+                        <small>Where to store generated memories</small>
+                    </div>
+                    <div class="tr-setting-row">
+                        <label for="tr_target_lorebook">Target Lorebook (Manual):</label>
+                        <input type="text" id="tr_target_lorebook" placeholder="Leave empty for auto-create">
+                        <small>Specific lorebook name (optional - leave empty to use auto-create)</small>
+                    </div>
+                    <div class="tr-setting-row">
+                        <label for="tr_auto_create_lorebook">
+                            <input type="checkbox" id="tr_auto_create_lorebook">
+                            Auto-Create Lorebook
+                        </label>
+                        <small>Automatically create a lorebook if none exists</small>
+                    </div>
+                    <div class="tr-setting-row">
+                        <label for="tr_lorebook_name_template">Lorebook Name Template:</label>
+                        <input type="text" id="tr_lorebook_name_template" placeholder="TR_Memories_{{char}}">
+                        <small>Use {{char}} for character name. Example: TR_Memories_{{char}}</small>
+                    </div>
+                    <div class="tr-setting-row">
+                        <label for="tr_refresh_editor">
+                            <input type="checkbox" id="tr_refresh_editor" checked>
+                            Refresh lorebook editor after adding memories
+                        </label>
+                        <small>Updates the World Info panel if it's open</small>
+                    </div>
+
+                    <div class="tr-setting-row">
+                        <label for="tr_popup_memories">
+                            <input type="checkbox" id="tr_popup_memories">
+                            Enable Pop-up Memories
+                        </label>
+                        <small>Create constant low-probability memories</small>
+                    </div>
+                    <div class="tr-setting-row">
+                        <label for="tr_popup_probability">Pop-up Probability:</label>
+                        <input type="range" id="tr_popup_probability" min="1" max="50" value="10">
+                        <span id="tr_popup_probability_value">10%</span>
+                        <small>Chance for pop-up memories to activate</small>
+                    </div>
+                    <div class="tr-setting-row">
+                        <label for="tr_memory_depth">Memory Injection Depth:</label>
+                        <input type="number" id="tr_memory_depth" min="0" max="100" value="4">
+                        <small>Depth in context where memories are injected</small>
+                    </div>
+                    <div class="tr-setting-row">
+                        <label for="tr_memory_role">Memory Role:</label>
+                        <select id="tr_memory_role">
+                            <option value="0">System</option>
+                            <option value="1">User</option>
+                            <option value="2">Assistant</option>
+                        </select>
+                        <small>Role for injected memories</small>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- Smart Retrieval Section -->
+            <div class="tr-section">
+                <div class="tr-section-header">
+                    <span><i class="fa-solid fa-magnifying-glass"></i> Smart Context Retrieval</span>
+                    <i class="fa-solid fa-chevron-down tr-collapse-icon"></i>
+                </div>
+                <div class="tr-section-content">
+                    <div class="tr-setting-row">
+                        <label for="tr_enable_smart_retrieval">
+                            <input type="checkbox" id="tr_enable_smart_retrieval">
+                            Enable Smart Retrieval
+                        </label>
+                        <small>AI queries only relevant memories</small>
+                    </div>
+                    <div class="tr-setting-row">
+                        <label for="tr_retrieval_on_send">
+                            <input type="checkbox" id="tr_retrieval_on_send">
+                            Auto-Retrieve on Send
+                        </label>
+                        <small>Automatically retrieve before each message</small>
+                    </div>
+                    <div class="tr-setting-row">
+                        <label for="tr_max_retrieved_memories">Max Retrieved Memories:</label>
+                        <input type="number" id="tr_max_retrieved_memories" min="1" max="20" value="5">
+                        <small>Maximum number of memories to inject</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Generation Settings Section -->
+            <div class="tr-section">
+                <div class="tr-section-header">
+                    <span><i class="fa-solid fa-cog"></i> Generation Settings</span>
+                    <i class="fa-solid fa-chevron-down tr-collapse-icon"></i>
+                </div>
+                <div class="tr-section-content">
+                    <div class="tr-setting-row">
+                        <label for="tr_summarization_profile">Summarization Profile:</label>
+                        <select id="tr_summarization_profile">
+                            <option value="">Select a Connection Profile</option>
+                        </select>
+                        <small>Connection Manager profile for AI summarization (required)</small>
+                    </div>
+                    <div class="tr-setting-row">
+                        <label for="tr_rate_limit">Rate Limit (per min):</label>
+                        <input type="number" id="tr_rate_limit" min="1" max="120" value="60">
+                        <small>Max summarization requests per minute</small>
+                    </div>
+                    <div class="tr-setting-row">
+                        <label for="tr_show_notifications">Notifications:</label>
+                        <select id="tr_show_notifications">
+                            <option value="all">Show All</option>
+                            <option value="errors">Errors Only</option>
+                            <option value="none">Off</option>
+                        </select>
+                        <small>Control popup notifications from this extension</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Timeline Injection Section -->
+            <div class="tr-section">
+                <div class="tr-section-header">
+                    <span><i class="fa-solid fa-syringe"></i> Timeline Injection</span>
+                    <i class="fa-solid fa-chevron-down tr-collapse-icon"></i>
+                </div>
+                <div class="tr-section-content">
+                    <div class="tr-setting-row">
+                        <label for="tr_enable_injection">
+                            <input type="checkbox" id="tr_enable_injection">
+                            Enable Timeline Injection
+                        </label>
+                        <small>Automatically inject timeline into AI context</small>
+                    </div>
+                    <div class="tr-setting-row">
+                        <label for="tr_injection_depth">Injection Depth: <span
+                                id="tr_injection_depth_value">0</span></label>
+                        <input type="range" id="tr_injection_depth" min="0" max="10" value="0">
+                        <small>0 = at end, higher = further back in message history</small>
+                    </div>
+                    <div class="tr-setting-row">
+                        <label for="tr_injection_role">Injection Role:</label>
+                        <select id="tr_injection_role">
+                            <option value="0">System</option>
+                            <option value="1">User</option>
+                            <option value="2">Assistant</option>
+                        </select>
+                        <small>Role for the injected timeline message</small>
+                    </div>
+                    <div class="tr-setting-row">
+                        <label for="tr_injection_template">Injection Template:</label>
+                        <textarea id="tr_injection_template" rows="4"
+                            placeholder="[Timeline Summary]&#10;{{timeline}}"></textarea>
+                        <small>Use {{timeline}} and {{timelineResponses}} macros</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Prompts Section -->
+            <div class="tr-section">
+                <div class="tr-section-header">
+                    <span><i class="fa-solid fa-pen"></i> Custom Prompts</span>
+                    <i class="fa-solid fa-chevron-down tr-collapse-icon"></i>
+                </div>
+                <div class="tr-section-content">
+                    <div class="tr-setting-row">
+                        <label for="tr_summary_prompt">Message Summary Prompt:</label>
+                        <textarea id="tr_summary_prompt" rows="4"
+                            placeholder="Use {{content}} for the message content"></textarea>
+                    </div>
+                    <div class="tr-setting-row">
+                        <label for="tr_keywords_prompt">Keywords Prompt:</label>
+                        <textarea id="tr_keywords_prompt" rows="4"
+                            placeholder="Use {{content}} for the content"></textarea>
+                    </div>
+                    <div class="tr-setting-row">
+                        <label for="tr_scene_summary_prompt">Scene Summary Prompt:</label>
+                        <textarea id="tr_scene_summary_prompt" rows="4"
+                            placeholder="Use {{content}} for the scene content"></textarea>
+                    </div>
+                    <div class="tr-setting-row">
+                        <button id="tr_reset_prompts" class="menu_button">
+                            <i class="fa-solid fa-rotate-left"></i> Reset All Prompts to Default
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Presets Section -->
+            <div class="tr-section">
+                <div class="tr-section-header">
+                    <span><i class="fa-solid fa-floppy-disk"></i> Presets</span>
+                    <i class="fa-solid fa-chevron-down tr-collapse-icon"></i>
+                </div>
+                <div class="tr-section-content">
+                    <div class="tr-setting-row">
+                        <label for="tr_preset_select">Load Preset:</label>
+                        <select id="tr_preset_select">
+                            <option value="">Select a preset...</option>
+                        </select>
+                        <button id="tr_load_preset" class="menu_button" title="Load selected preset">
+                            <i class="fa-solid fa-upload"></i>
+                        </button>
+                        <button id="tr_delete_preset" class="menu_button" title="Delete selected preset">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                    <div class="tr-setting-row">
+                        <label for="tr_preset_name">Save As:</label>
+                        <input type="text" id="tr_preset_name" placeholder="Enter preset name">
+                        <button id="tr_save_preset" class="menu_button" title="Save current settings as preset">
+                            <i class="fa-solid fa-save"></i> Save
+                        </button>
+                    </div>
+                    <div class="tr-setting-row">
+                        <button id="tr_export_preset" class="menu_button" title="Export selected preset as JSON">
+                            <i class="fa-solid fa-file-export"></i> Export
+                        </button>
+                        <button id="tr_import_preset" class="menu_button" title="Import preset from JSON">
+                            <i class="fa-solid fa-file-import"></i> Import
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="tr-section">
+                <div class="tr-section-header">
+                    <span><i class="fa-solid fa-bolt"></i> Quick Actions</span>
+                    <i class="fa-solid fa-chevron-down tr-collapse-icon"></i>
+                </div>
+                <div class="tr-section-content">
+                    <div class="tr-button-row">
+                        <button id="tr_summarize_all" class="menu_button">
+                            <i class="fa-solid fa-compress"></i> Summarize All
+                        </button>
+                        <button id="tr_clear_summaries" class="menu_button">
+                            <i class="fa-solid fa-trash"></i> Clear Summaries
+                        </button>
+                    </div>
+                    <div class="tr-button-row">
+                        <button id="tr_view_memories" class="menu_button">
+                            <i class="fa-solid fa-eye"></i> View Memories
+                        </button>
+                        <button id="tr_export_memories" class="menu_button">
+                            <i class="fa-solid fa-download"></i> Export
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

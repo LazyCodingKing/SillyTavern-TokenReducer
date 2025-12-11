@@ -1,0 +1,14 @@
+{
+    "display_name": "Token Reducer",
+    "loading_order": 10,
+    "requires": [],
+    "optional": [
+        "connectionManager"
+    ],
+    "js": "index.js",
+    "css": "style.css",
+    "author": "Combined Memory Extensions",
+    "version": "1.0.0",
+    "homePage": "https://github.com/user/SillyTavern-TokenReducer",
+    "auto_update": false
+}
