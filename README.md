@@ -1,5 +1,5 @@
 # SillyTavern Token Reducer
-
+MADE USING GOOGLE ANTIGRAVITY BASED ON POPULAR MEMORY EXTENSIONS FOR PERSONAL USE
 A comprehensive token reduction extension for SillyTavern 1.13+ that helps manage context window usage during roleplay.
 
 ## Features
