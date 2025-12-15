@@ -33,6 +33,7 @@ const defaultSettings = {
     auto_scene_interval: 0, // 0 = disabled, otherwise number of messages
     scene_button: true,
     hide_summarized_scenes: false,
+    scene_keep_count: 5, // Number of recent messages to keep visible when hiding scenes
 
     // Memory Storage
     storage_mode: 'lorebook', // 'metadata', 'lorebook', 'both' - Changed to lorebook for AI retrieval
@@ -66,7 +67,7 @@ const defaultSettings = {
     show_notifications: 'all', // 'all', 'errors', 'none'
 
     // Prompts
-    summary_prompt: `Summarize the following message briefly in plain text. No markdown, no asterisks, no alternatives. Just a simple one-sentence summary:
+    summary_prompt: `Create a single-paragraph summary (max 3 sentences). Focus on: who did what, key information revealed, and emotional tone. End with 2-3 comma-separated keywords.
 
 {{content}}
 
@@ -78,11 +79,11 @@ Summary:`,
 
 Keywords:`,
 
-    scene_summary_prompt: `Summarize the following scene/chapter in a concise paragraph. Include key events, character developments, and important details:
+    scene_summary_prompt: `Summarize this scene in 2-3 concise paragraphs. Cover: (1) What happened - concrete actions and changes, (2) Location/items introduced, (3) Character emotional shifts with triggers. End with 5-8 comma-separated keywords. Use plain text, no markdown formatting.
 
 {{content}}
 
-Scene Summary:`,
+Summary:`,
 
     retrieval_query_prompt: `Given the following chat history, formulate a search query to find relevant past details in our memory bank. Return ONLY the search query.
 
@@ -273,6 +274,7 @@ function applySettingsToUI() {
     $('#tr_auto_scene_interval_value').text(settings.auto_scene_interval > 0 ? settings.auto_scene_interval : 'Off');
     $('#tr_scene_button').prop('checked', settings.scene_button);
     $('#tr_hide_summarized_scenes').prop('checked', settings.hide_summarized_scenes);
+    $('#tr_scene_keep_count').val(settings.scene_keep_count);
 
     // Memory Storage
     $('#tr_storage_mode').val(settings.storage_mode);
@@ -351,7 +353,7 @@ function bindSettingsHandlers() {
 
     // Number input handlers
     const numbers = [
-        'summary_delay_messages', 'memory_depth', 'max_retrieved_memories', 'rate_limit', 'keep_recent_count'
+        'summary_delay_messages', 'memory_depth', 'max_retrieved_memories', 'rate_limit', 'keep_recent_count', 'scene_keep_count'
     ];
 
     numbers.forEach(name => {
@@ -766,6 +768,7 @@ function updateDependentSettings() {
     $('#tr_auto_scene_interval').closest('.tr-setting-row').toggle(settings.enable_scene_mode);
     $('#tr_scene_button').closest('.tr-setting-row').toggle(settings.enable_scene_mode);
     $('#tr_hide_summarized_scenes').closest('.tr-setting-row').toggle(settings.enable_scene_mode);
+    $('#tr_scene_keep_count').closest('.tr-setting-row').toggle(settings.enable_scene_mode && settings.hide_summarized_scenes);
 
     // Lorebook settings depend on storage mode
     const showLorebook = settings.storage_mode === 'lorebook' || settings.storage_mode === 'both';

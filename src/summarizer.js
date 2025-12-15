@@ -276,7 +276,13 @@ export async function summarizeScene(startId, endId) {
 
         // Optionally hide summarized messages
         if (settings.hide_summarized_scenes) {
-            for (let i = startId; i < endId; i++) {
+            // Calculate how many messages to actually hide
+            const keepCount = settings.scene_keep_count || 0;
+            const hideUntil = Math.max(startId, endId - keepCount);
+
+            // Hide messages from startId up to (but not including) hideUntil
+            // This preserves the last 'keepCount' messages in the scene
+            for (let i = startId; i < hideUntil; i++) {
                 chat[i].is_system = true;
                 $(`.mes[mesid="${i}"]`).attr('is_system', 'true');
             }
