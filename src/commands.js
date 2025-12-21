@@ -6,7 +6,7 @@ import { getContext } from "../../../../extensions.js";
 import { settings } from "./settings.js";
 import { summarizeMessage, summarizeScene, summarizeAllMessages, clearAllSummaries, findLastSceneEnd, autoFillChapters } from "./summarizer.js";
 import { getTotalSavings, updateTokenDisplay } from "./token-tracker.js";
-import { retrieveRelevantMemories, getTimeline, exportMemories, analyzeAndShowArcs } from "./memory-manager.js";
+import { retrieveRelevantMemories, getChapterTimeline, exportMemories, analyzeAndShowArcs } from "./memory-manager.js";
 
 /**
  * Register slash commands
@@ -236,26 +236,26 @@ export function loadSlashCommands() {
         helpString: 'Clear all summaries from the current chat'
     }));
 
-    // /tr-timeline - Show the timeline of scene summaries
+    // /tr-timeline - Show the timeline of chapters
     SlashCommandParser.addCommandObject(SlashCommand.fromProps({
         name: 'tr-timeline',
         callback: async () => {
-            const timeline = getTimeline();
+            const chapters = getChapterTimeline();
 
-            if (timeline.length === 0) {
-                return 'No scenes recorded yet. Use /tr-scene-end to create scene summaries.';
+            if (chapters.length === 0) {
+                return 'No chapters recorded yet. Use /tr-scene-end to create chapters.';
             }
 
             const result = [
-                `📜 Timeline (${timeline.length} scenes):`,
+                `📜 Timeline (${chapters.length} chapters):`,
                 '─────────────────────',
-                ...timeline.map((summary, i) => `**Scene ${i + 1}:** ${summary}`)
+                ...chapters.map((chapter, i) => `**Chapter ${i + 1}** (Messages ${chapter.startMsgId}-${chapter.endMsgId}): ${chapter.summary}`)
             ].join('\n\n');
 
             return result;
         },
         aliases: ['trtl'],
-        helpString: 'Show the timeline of scene summaries'
+        helpString: 'Show the timeline of chapter summaries'
     }));
 
     // /tr-export - Export memories to JSON
